@@ -1,0 +1,409 @@
+#%RAML 1.0
+title: Americans Flights Api
+types:
+  AmericanFlightDataType: !include exchange_modules/68ef9520-24e9-4cf2-b2f5-620025690913/training-american-flight-data-type/1.0.1/AmericanFlightDataType.raml
+/flights:
+  get:
+    displayName: GET All Flights.
+    description: Retrieves All Flight Data.
+    queryParameters:
+      destination:
+        required: false
+        type: string
+
+    responses:
+      200:
+        body:
+          application/json:
+            type: AmericanFlightDataType[]
+            example: !include exchange_modules/68ef9520-24e9-4cf2-b2f5-620025690913/training-american-flights-example/1.0.1/AmericanFlightsExample.raml
+
+      204:
+        body:
+          application/json:
+            example:
+              {
+                "message": "No Content"
+              }
+      
+      400:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Bad Request"
+              }
+
+      401:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Unauthorized"
+                }
+
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Not Found"
+              }       
+      
+      500:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Internal Server Error"
+              }
+
+      502:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Bad Gateway"
+              }
+
+      503:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Service Unavailable"
+              }
+
+  post:
+    displayName: POST Flight.
+    description: This method adds a new Flight.
+    body:
+      application/json:
+        type: AmericanFlightDataType
+        example: !include Examples/americanflightexample.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Flight added(not really)"
+              }
+
+      400:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Bad Request"
+              }
+
+      401:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Unauthorized"
+              }
+
+      404:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Not Found"
+              }
+      
+      500:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Internal Server Error"
+              }
+
+      502:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Bad Gateway"
+              }
+
+      503:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Service Unavailable"
+              }
+
+  /{ID}:
+    get:
+      displayName: GET Flights by ID.
+      description: Retrieves Flight by ID.
+      responses:
+        200:
+          body:
+            application/json:
+              type: AmericanFlightDataType
+              example: !include Examples/americanflightexample.raml
+
+        204:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "No Content"
+                }
+
+        400:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Request"
+                }
+
+        401:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Unauthorized"
+                }
+
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Found"
+                }     
+      
+        500:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Internal Server Error"
+                }
+
+        502:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Gateway"
+                }
+
+        503:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Service Unavailable"
+                }
+
+    delete:
+      displayName: DELETE Flight by ID.
+      description: This method deletes a Flight by ID.
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Flight has been deleted by ID(not really)"
+                }
+
+        400:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Request"
+                }
+
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Found"
+                }
+
+        401:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Unauthorized"
+                }
+      
+        500:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Internal Server Error"
+                }
+
+        502:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Gateway"
+                }
+
+        503:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Service Unavailable"
+                }        
+
+    put:
+      displayName: PUT Flight by ID.
+      description: This Method replaces Flight for particular ID.
+      body:
+        application/json:
+          type: AmericanFlightDataType
+          example: !include Examples/americanflightnoIDexample.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  message: "Flight replaced for a given ID(not really)"
+                }
+
+        304:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Modified"
+                }
+
+        400:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Request"
+                }
+
+        401:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Unauthorized"
+                }
+
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Found"
+                }   
+      
+        500:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Internal Server Error"
+                }
+
+        502:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Gateway"
+                }
+
+        503:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Service Unavailable"
+                }
+      
+    patch:
+      displayName: PATCH Flight by ID.
+      description: This method modifies a flight for particular ID.
+      body:
+        application/json:
+
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Flight modified for given ID(not really)"
+                }
+
+        304:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Modified"
+                }
+
+        400:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Request"
+                }
+
+        401:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Unauthorized"
+                }
+
+        404:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Not Found"
+                }   
+      
+        500:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Internal Server Error"
+                }
+
+        502:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Bad Gateway"
+                }
+
+        503:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Service Unavailable"
+                }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <apikit:config name="americans-flights-api-config" api="americans-flights-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="americans-flights-api-main">
+        <http:listener config-ref="americans-flights-api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="americans-flights-api-config" />
+    </flow>
+    <flow name="americans-flights-api-console">
+        <http:listener config-ref="americans-flights-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="americans-flights-api-config" />
+    </flow>
+    <flow name="put:\flights\(ID):application\json:americans-flights-api-config">
+        <ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="ad672501-37fe-47a3-9c86-211657ef2d9a" name="putFlow" />
+    </flow>
+    <flow name="delete:\flights\(ID):americans-flights-api-config">
+        <ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="4152103a-ca93-4073-9bd3-2c1f39f93304" name="delete" />
+    </flow>
+    <flow name="patch:\flights\(ID):application\json:americans-flights-api-config">
+        <ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="5898ea4a-6f93-4bc6-b759-212f0b65b639" name="patchflow" />
+    </flow>
+    <flow name="get:\flights:americans-flights-api-config">
+        <flow-ref doc:name="get All flightsFlow Reference" doc:id="24f0ceac-c22c-4f5d-81d8-43ae9845ef94" name="getflightsflow" />
+    </flow>
+    <flow name="get:\flights\(ID):americans-flights-api-config">
+        <ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="ID">attributes.uriParams.'ID'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="d586f712-f144-4135-b0d0-fba9be29b7e0" name="getalflightsidFlow" />
+    </flow>
+    <flow name="post:\flights:application\json:americans-flights-api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="bf75dd1b-343b-424e-b64b-e297ead0e9ef" name="postFlightsFlow" />
+    </flow>
+</mule>
